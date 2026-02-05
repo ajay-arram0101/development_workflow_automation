@@ -1,0 +1,6 @@
+# Interview Demo Requirements
+# Install with: pip install -r requirements.txt
+
+openai>=1.0.0           # OpenAI API
+python-dotenv>=1.0.0    # Load .env files
+requests>=2.31.0        # HTTP requests for GitHub API
