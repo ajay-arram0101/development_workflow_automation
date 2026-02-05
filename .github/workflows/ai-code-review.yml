@@ -41,8 +41,7 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
-          cd pr_analyzer
-          python main.py --pr ${{ github.event.pull_request.number }}
+          python -m pr_analyzer.main --pr ${{ github.event.pull_request.number }}
       
       - name: 📊 Analysis Complete
         run: |

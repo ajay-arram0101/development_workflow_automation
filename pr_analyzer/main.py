@@ -8,14 +8,18 @@ It coordinates the diff extraction, analysis, and commenting.
 import os
 import sys
 import argparse
+
+# Add parent directory to path for imports
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
 from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
 
-from diff_extractor import DiffExtractor
-from code_analyzer import CodeAnalyzer
-from github_commenter import GitHubCommenter
+from pr_analyzer.diff_extractor import DiffExtractor
+from pr_analyzer.code_analyzer import CodeAnalyzer
+from pr_analyzer.github_commenter import GitHubCommenter
 
 
 class PRAnalyzer:
