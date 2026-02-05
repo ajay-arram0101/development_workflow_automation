@@ -121,16 +121,23 @@ class CodeAnalyzer:
         if not self.api_key:
             raise ValueError("OPENAI_API_KEY is required")
         
+        # Debug: Show that we have a key (masked)
+        print(f"🔑 OpenAI API Key configured: {self.api_key[:8]}...{self.api_key[-4:]}")
+        
         self.client = OpenAI(api_key=self.api_key)
     
     def _call_openai(self, prompt: str) -> str:
         """Call OpenAI API."""
-        response = self.client.chat.completions.create(
-            model="gpt-4o",
-            max_tokens=2000,
-            messages=[{"role": "user", "content": prompt}]
-        )
-        return response.choices[0].message.content
+        try:
+            response = self.client.chat.completions.create(
+                model="gpt-4o",
+                max_tokens=2000,
+                messages=[{"role": "user", "content": prompt}]
+            )
+            return response.choices[0].message.content
+        except Exception as e:
+            print(f"❌ OpenAI API Error: {type(e).__name__}: {e}")
+            raise
     
     def analyze_file(self, filename: str, code: str) -> AnalysisResult:
         """
