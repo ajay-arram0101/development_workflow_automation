@@ -49,14 +49,28 @@ class DiffExtractor:
         Returns:
             List of ChangedFile objects
         """
+        # Skip these folders - they are infrastructure, not code to review
+        SKIP_FOLDERS = [
+            "pr_analyzer/",
+            ".github/",
+            "__pycache__/",
+        ]
+        
         url = f"{self.api_base}/repos/{self.repo}/pulls/{pr_number}/files"
         response = requests.get(url, headers=self.headers)
         response.raise_for_status()
         
         files = []
         for file_data in response.json():
+            filename = file_data["filename"]
+            
             # Only include Python files
-            if not file_data["filename"].endswith(".py"):
+            if not filename.endswith(".py"):
+                continue
+            
+            # Skip infrastructure folders
+            if any(filename.startswith(folder) for folder in SKIP_FOLDERS):
+                print(f"  ⏭️ Skipping infrastructure file: {filename}")
                 continue
             
             # Skip deleted files
@@ -64,7 +78,7 @@ class DiffExtractor:
                 continue
             
             changed_file = ChangedFile(
-                filename=file_data["filename"],
+                filename=filename,
                 status=file_data["status"],
                 additions=file_data["additions"],
                 deletions=file_data["deletions"],
@@ -73,7 +87,7 @@ class DiffExtractor:
             
             # Get full file content for analysis
             changed_file.content = self._get_file_content(
-                file_data["filename"], 
+                filename, 
                 pr_number
             )
             

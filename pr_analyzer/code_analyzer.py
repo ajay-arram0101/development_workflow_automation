@@ -12,7 +12,7 @@ load_dotenv()
 
 
 # ============================================================================
-# ANALYSIS PROMPTS
+# ANALYSIS PROMPTS (Same as ai_code_analyzer.py)
 # ============================================================================
 
 SECURITY_PROMPT = """You are a senior security engineer performing a security audit.
@@ -39,10 +39,10 @@ For EACH finding, provide:
 - Description
 - Secure code fix
 
-Be concise but thorough."""
+Format as a clear security report."""
 
 
-CODE_QUALITY_PROMPT = """You are a senior software architect reviewing code for quality.
+CODE_QUALITY_PROMPT = """You are a senior software architect reviewing legacy code for modernization.
 
 Analyze this code for quality issues:
 
@@ -52,51 +52,76 @@ Analyze this code for quality issues:
 
 Identify:
 1. **Code Smells** - Long methods, god classes, magic numbers
-2. **Outdated Patterns** - Old practices that should be modernized
+2. **Outdated Patterns** - Callbacks that should be async/await, old string formatting
 3. **Missing Best Practices** - No type hints, no docstrings, poor error handling
 4. **SOLID Violations** - Single responsibility, dependency injection issues
 5. **Testability Issues** - Tight coupling, no interfaces
 
-For each issue provide:
+For each issue:
 - Location (line number)
-- Issue type  
+- Issue type
 - Why it's a problem
-- Quick fix suggestion
+- Modern Python solution
 
-Be concise but actionable."""
-
-
-MIGRATION_PROMPT = """You are a technical lead assessing code for modernization.
-
-Analyze this code for migration needs:
-
-```python
-{code}
-```
-
-Provide a brief migration assessment:
-1. **Tech Debt Score** (1-10, 10 = severe debt)
-2. **Top 3 Priority Fixes**
-3. **Recommended Modern Patterns**
-4. **Effort Estimate** (Small/Medium/Large)
-
-Be concise - this is for a PR comment."""
+Be specific and actionable."""
 
 
-REFACTOR_PROMPT = """You are a Python expert suggesting quick refactoring wins.
+MIGRATION_PROMPT = """You are a technical lead planning a legacy code migration.
 
-Review this code:
+Analyze this codebase for migration to modern architecture:
 
 ```python
 {code}
 ```
 
-Suggest the TOP 3 most impactful refactoring improvements:
-1. What to change
-2. Why it matters
-3. Brief code snippet showing the improvement
+Provide a migration plan including:
 
-Keep suggestions actionable for a PR review."""
+## 1. Current State Assessment
+- Tech debt items
+- Risk areas
+- Dependencies
+
+## 2. Target Architecture
+- Recommended patterns (Repository, Service Layer, etc.)
+- Framework recommendations (FastAPI, SQLAlchemy, etc.)
+- Testing strategy
+
+## 3. Migration Phases
+- Phase 1: Quick wins (what can be fixed immediately)
+- Phase 2: Refactoring (structural changes)
+- Phase 3: Modernization (new patterns/frameworks)
+
+## 4. Effort Estimation
+- Small (1-2 days)
+- Medium (1 week)
+- Large (2+ weeks)
+
+## 5. Risk Mitigation
+- How to migrate safely without breaking production
+
+Be specific to THIS codebase."""
+
+
+REFACTOR_PROMPT = """You are a Python modernization expert.
+
+Refactor this legacy code to modern Python 3.11+ standards:
+
+ORIGINAL CODE:
+```python
+{code}
+```
+
+Requirements:
+1. Fix ALL security vulnerabilities (use parameterized queries, env vars for secrets)
+2. Add type hints to all functions
+3. Convert callbacks to async/await where applicable
+4. Add proper error handling with specific exceptions
+5. Add docstrings (Google style)
+6. Break down god methods into smaller functions
+7. Use dataclasses or Pydantic for data structures
+8. Follow PEP 8
+
+Suggest the TOP 3 most impactful refactoring improvements with code snippets."""
 
 
 @dataclass
