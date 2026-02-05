@@ -1,6 +1,8 @@
 """
 LEGACY USER AUTHENTICATION
 Intentionally vulnerable for demo purposes
+
+NOTE: This file needs security review and modernization.
 """
 
 import hashlib
