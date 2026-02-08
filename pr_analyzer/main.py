@@ -13,9 +13,9 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-from diff_extractor import DiffExtractor
-from code_analyzer import CodeAnalyzer
-from github_commenter import GitHubCommenter
+from .diff_extractor import DiffExtractor
+from .code_analyzer import CodeAnalyzer
+from .github_commenter import GitHubCommenter
 
 
 class PRAnalyzer:
