@@ -7,6 +7,8 @@ This is intentionally bad code with common legacy issues:
 - Poor error handling
 - No type hints
 - Outdated patterns
+
+NOTE: This file needs security review and modernization.
 """
 
 import mysql.connector
